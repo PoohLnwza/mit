@@ -1,0 +1,516 @@
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0e17;
+  --bg2: #0f1521;
+  --neon-green: #39ff14;
+  --neon-cyan: #00e5ff;
+  --neon-magenta: #ff2cf1;
+  --neon-yellow: #ffe600;
+  --neon-red: #ff3131;
+  --text: #c8d6e5;
+  --text-dim: #576574;
+  --pixel-border: 4px;
+  --card-bg: rgba(15, 21, 33, 0.92);
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════
+   BACKGROUND EFFECTS
+   ═══════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 65, 0.03) 2px,
+    rgba(0, 255, 65, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* pixel grid */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(57, 255, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* floating binary rain */
+.binary-rain {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.binary-col {
+  position: absolute;
+  top: -100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: rgba(57, 255, 20, 0.12);
+  white-space: pre;
+  animation: rain linear infinite;
+  line-height: 1.8;
+}
+@keyframes rain {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(200vh);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════ */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════ */
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+  padding-top: 28px;
+}
+
+.logo-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px var(--neon-green));
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.title {
+  font-size: 20px;
+  color: var(--neon-green);
+  text-shadow:
+    0 0 7px var(--neon-green),
+    0 0 20px rgba(57, 255, 20, 0.4);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.subtitle {
+  font-size: 8px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  background: var(--neon-green);
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* terminal prompt */
+.terminal-prompt {
+  font-size: 8px;
+  color: var(--neon-green);
+  text-align: center;
+  margin-bottom: 28px;
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION VISIBILITY
+   ═══════════════════════════════════════════ */
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PATH BUTTONS (landing)
+   ═══════════════════════════════════════════ */
+.path-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.path-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  border: var(--pixel-border) solid;
+  background: var(--card-bg);
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    box-shadow 0.25s;
+  text-align: left;
+  line-height: 1.8;
+  image-rendering: pixelated;
+}
+
+.path-btn:hover {
+  transform: translateY(-3px);
+}
+
+.path-btn:active {
+  transform: translateY(1px);
+}
+
+.path-btn .icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.path-btn .label {
+  flex: 1;
+}
+.path-btn .label .name {
+  display: block;
+  margin-bottom: 6px;
+}
+.path-btn .label .desc {
+  display: block;
+  font-size: 7px;
+  opacity: 0.6;
+  line-height: 1.8;
+}
+
+/* Non-Tech button */
+.path-btn.nontech {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  box-shadow:
+    0 0 8px rgba(57, 255, 20, 0.25),
+    inset 0 0 20px rgba(57, 255, 20, 0.05);
+}
+.path-btn.nontech:hover {
+  box-shadow:
+    0 0 20px rgba(57, 255, 20, 0.5),
+    inset 0 0 30px rgba(57, 255, 20, 0.08);
+}
+
+/* Tech button */
+.path-btn.tech {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow:
+    0 0 8px rgba(0, 229, 255, 0.25),
+    inset 0 0 20px rgba(0, 229, 255, 0.05);
+}
+.path-btn.tech:hover {
+  box-shadow:
+    0 0 20px rgba(0, 229, 255, 0.5),
+    inset 0 0 30px rgba(0, 229, 255, 0.08);
+}
+
+/* arrow indicator */
+.path-btn::after {
+  content: '▶';
+  font-size: 14px;
+  opacity: 0.5;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+.path-btn:hover::after {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* ═══════════════════════════════════════════
+   PATH HEADER (inside path pages)
+   ═══════════════════════════════════════════ */
+.path-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  background: transparent;
+  border: 2px solid var(--text-dim);
+  color: var(--text-dim);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.back-btn:hover {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+
+.path-title {
+  font-size: 13px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+.path-title.green {
+  color: var(--neon-green);
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.4);
+}
+.path-title.cyan {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.4);
+}
+
+/* ═══════════════════════════════════════════
+   MODULE CARDS
+   ═══════════════════════════════════════════ */
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.module-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  background: var(--card-bg);
+  border-left: var(--pixel-border) solid;
+  transition:
+    transform 0.15s,
+    box-shadow 0.25s,
+    border-color 0.25s;
+  cursor: default;
+  line-height: 1.8;
+}
+
+.module-card:hover {
+  transform: translateX(6px);
+}
+
+.module-card .mod-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.module-card .mod-info {
+  flex: 1;
+}
+
+.module-card .mod-num {
+  font-size: 7px;
+  opacity: 0.4;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.module-card .mod-name {
+  font-size: 10px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.module-card .mod-desc {
+  font-size: 7px;
+  color: var(--text-dim);
+  line-height: 1.9;
+  display: block;
+}
+
+.module-card .start-btn {
+  align-self: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 8px 14px;
+  border: 2px solid;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+/* green variant */
+.module-card.green {
+  border-left-color: var(--neon-green);
+  color: var(--neon-green);
+}
+.module-card.green:hover {
+  box-shadow: 0 0 14px rgba(57, 255, 20, 0.15);
+}
+.module-card.green .start-btn {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+.module-card.green .start-btn:hover {
+  background: var(--neon-green);
+  color: var(--bg);
+}
+
+/* cyan variant */
+.module-card.cyan {
+  border-left-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+.module-card.cyan:hover {
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.15);
+}
+.module-card.cyan .start-btn {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+.module-card.cyan .start-btn:hover {
+  background: var(--neon-cyan);
+  color: var(--bg);
+}
+
+/* module number badge */
+.module-card .mod-badge {
+  position: absolute;
+  top: -1px;
+  right: 12px;
+  font-size: 7px;
+  padding: 3px 8px;
+  opacity: 0.3;
+}
+
+/* progress bar placeholder */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar .fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.6s ease;
+}
+.progress-bar .fill.green {
+  background: var(--neon-green);
+  box-shadow: 0 0 6px var(--neon-green);
+}
+.progress-bar .fill.cyan {
+  background: var(--neon-cyan);
+  box-shadow: 0 0 6px var(--neon-cyan);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 7px;
+  color: var(--text-dim);
+  opacity: 0.5;
+  line-height: 2;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .title {
+    font-size: 14px;
+  }
+  .path-btn {
+    font-size: 9px;
+    padding: 14px;
+  }
+  .path-btn .icon {
+    font-size: 24px;
+  }
+  .path-title {
+    font-size: 10px;
+  }
+  .module-card {
+    flex-wrap: wrap;
+  }
+  .module-card .start-btn {
+    margin-top: 8px;
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecureSensei — Cybersecurity Learning Platform</title>
+    <meta
+      name="description"
+      content="SecureSensei: แพลตฟอร์มเรียนรู้ Cybersecurity แบบ pixel-art สำหรับสาย Technical และ Non-Technical"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- Binary rain background -->
+    <div class="binary-rain" id="binaryRain"></div>
+
+    <div class="container">
+      <!-- ─── HEADER ─── -->
+      <header class="header">
+        <div class="logo-icon">🛡️</div>
+        <h1 class="title">SECURE SENSEI</h1>
+        <p class="subtitle">
+          CYBERSECURITY LEARNING PLATFORM<span class="cursor-blink"></span>
+        </p>
+      </header>
+
+      <p class="terminal-prompt">
+        root@securesensei:~$ select_path<span class="cursor-blink"></span>
+      </p>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION: PATH SELECTION
+           ═══════════════════════════════════════════ -->
+      <div id="landing" class="section active">
+        <div class="path-buttons">
+          <button
+            class="path-btn nontech"
+            id="btn-nontech"
+            onclick="showSection('nontech')"
+          >
+            <span class="icon">🧑‍💼</span>
+            <span class="label">
+              <span class="name">NON-TECHNICAL PATH</span>
+              <span class="desc">เรียนรู้ภัยคุกคามไซเบอร์ที่ทุกคนต้องรู้</span>
+            </span>
+          </button>
+
+          <button
+            class="path-btn tech"
+            id="btn-tech"
+            onclick="showSection('tech')"
+          >
+            <span class="icon">💻</span>
+            <span class="label">
+              <span class="name">TECHNICAL PATH</span>
+              <span class="desc">ฝึกทักษะด้าน Cybersecurity แบบ Hands-on</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION: NON-TECHNICAL PATH
+           ═══════════════════════════════════════════ -->
+      <div id="nontech" class="section">
+        <div class="path-header">
+          <button class="back-btn" onclick="showSection('landing')">
+            ◀ BACK
+          </button>
+          <h2 class="path-title green">NON-TECHNICAL PATH</h2>
+        </div>
+
+        <div class="modules">
+          <!-- Module 1 -->
+          <div class="module-card green">
+            <span class="mod-icon">📧</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 01</span>
+              <span class="mod-name">PHISHING MAIL</span>
+              <span class="mod-desc"
+                >เรียนรู้วิธีสังเกตอีเมลหลอกลวง ฝึกแยกแยะลิงก์อันตราย
+                และป้องกันตัวจากการถูกฟิชชิ่ง</span
+              >
+              <div class="progress-bar">
+                <div class="fill green" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+
+          <!-- Module 2 -->
+          <div class="module-card green">
+            <span class="mod-icon">🎭</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 02</span>
+              <span class="mod-name">SOCIAL ENGINEERING</span>
+              <span class="mod-desc"
+                >ทำความเข้าใจเทคนิคการหลอกลวงทางจิตวิทยา เช่น pretexting,
+                baiting และวิธีรับมือ</span
+              >
+              <div class="progress-bar">
+                <div class="fill green" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+
+          <!-- Module 3 -->
+          <div class="module-card green">
+            <span class="mod-icon">🔐</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 03</span>
+              <span class="mod-name">MFA & PASSWORD SECURITY</span>
+              <span class="mod-desc"
+                >สร้างรหัสผ่านที่ปลอดภัย เรียนรู้การยืนยันตัวตนหลายขั้นตอน (MFA)
+                และเครื่องมือจัดการรหัสผ่าน</span
+              >
+              <div class="progress-bar">
+                <div class="fill green" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SECTION: TECHNICAL PATH
+           ═══════════════════════════════════════════ -->
+      <div id="tech" class="section">
+        <div class="path-header">
+          <button class="back-btn" onclick="showSection('landing')">
+            ◀ BACK
+          </button>
+          <h2 class="path-title cyan">TECHNICAL PATH</h2>
+        </div>
+
+        <div class="modules">
+          <!-- Module 1 -->
+          <div class="module-card cyan">
+            <span class="mod-icon">🐧</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 01</span>
+              <span class="mod-name">LINUX พื้นฐาน</span>
+              <span class="mod-desc"
+                >เรียนรู้คำสั่ง Linux เบื้องต้น การจัดการไฟล์ สิทธิ์ผู้ใช้ และ
+                Shell Scripting สำหรับงาน Security</span
+              >
+              <div class="progress-bar">
+                <div class="fill cyan" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+
+          <!-- Module 2 -->
+          <div class="module-card cyan">
+            <span class="mod-icon">🌐</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 02</span>
+              <span class="mod-name">NETWORKING SECURITY</span>
+              <span class="mod-desc"
+                >ทำความเข้าใจ TCP/IP, Firewall, IDS/IPS และวิธีวิเคราะห์ Network
+                Traffic เพื่อตรวจจับภัยคุกคาม</span
+              >
+              <div class="progress-bar">
+                <div class="fill cyan" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+
+          <!-- Module 3 -->
+          <div class="module-card cyan">
+            <span class="mod-icon">🛡️</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 03</span>
+              <span class="mod-name">DEFENSIVE SECURITY LAB</span>
+              <span class="mod-desc"
+                >แล็บฝึกปฏิบัติ Blue Team: SIEM, Log Analysis, Incident Response
+                และการเสริมความแข็งแกร่งของระบบ</span
+              >
+              <div class="progress-bar">
+                <div class="fill cyan" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+
+          <!-- Module 4 -->
+          <div class="module-card cyan">
+            <span class="mod-icon">⚔️</span>
+            <div class="mod-info">
+              <span class="mod-num">MODULE 04</span>
+              <span class="mod-name">OFFENSIVE SECURITY</span>
+              <span class="mod-desc"
+                >ฝึกทักษะ Penetration Testing, Vulnerability Assessment และ
+                Ethical Hacking ผ่านแล็บจำลอง</span
+              >
+              <div class="progress-bar">
+                <div class="fill cyan" style="width: 0%"></div>
+              </div>
+            </div>
+            <button class="start-btn">START</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        &copy; 2026 SecureSensei &mdash; LEVEL UP YOUR SECURITY SKILLS
+      </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

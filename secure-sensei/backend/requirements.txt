@@ -1,0 +1,6 @@
+ollama
+psycopg2-binary
+fastapi
+uvicorn
+pydantic
+sentence-transformers

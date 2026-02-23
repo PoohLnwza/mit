@@ -1,0 +1,397 @@
+/* ═══════════════════════════════════════════
+   SECURE SENSEI — Minimal Terminal Theme
+   Black bg, white text, green accents
+   ═══════════════════════════════════════════ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg-card: #141414;
+  --green: #00cc66;
+  --green-dim: rgba(0, 204, 102, 0.15);
+  --text: #e8e8e8;
+  --text-dim: #666666;
+  --border: #222222;
+}
+
+body {
+  font-family: 'Chakra Petch', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.binary-rain {
+  display: none;
+}
+
+/* ── Layout ── */
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 48px;
+}
+
+.logo-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #ffffff;
+  letter-spacing: 6px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  background: var(--green);
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.terminal-prompt {
+  font-family: 'Chakra Petch', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green);
+  text-align: center;
+  margin-bottom: 32px;
+  opacity: 0.7;
+}
+
+/* ── Sections ── */
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Path Buttons ── */
+.path-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.path-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.path-btn:hover {
+  border-color: var(--green);
+  background: var(--bg2);
+}
+
+.path-btn .icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  color: var(--green);
+}
+
+.path-btn .label {
+  flex: 1;
+}
+.path-btn .label .name {
+  display: block;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+.path-btn .label .desc {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.path-btn.nontech {
+  border-color: var(--border);
+}
+.path-btn.nontech:hover {
+  border-color: var(--green);
+}
+.path-btn.tech {
+  border-color: var(--border);
+}
+.path-btn.tech:hover {
+  border-color: var(--green);
+}
+
+.path-btn::after {
+  content: '>';
+  font-family: monospace;
+  font-size: 18px;
+  color: var(--green);
+  opacity: 0.3;
+  transition: opacity 0.2s;
+}
+.path-btn:hover::after {
+  opacity: 1;
+}
+
+/* ── Path Header ── */
+.path-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.back-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.path-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+.path-title.green,
+.path-title.cyan {
+  color: #ffffff;
+}
+
+/* ── Module Cards ── */
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.module-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  cursor: default;
+  line-height: 1.7;
+}
+
+.module-card:hover {
+  background: var(--bg2);
+  border-color: var(--green);
+}
+
+.module-card .mod-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.module-card .mod-info {
+  flex: 1;
+}
+.module-card .mod-num {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--green);
+  opacity: 0.6;
+  margin-bottom: 2px;
+  display: block;
+  letter-spacing: 1px;
+}
+.module-card .mod-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  display: block;
+}
+.module-card .mod-desc {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-dim);
+  line-height: 1.7;
+  display: block;
+}
+
+.module-card .start-btn {
+  align-self: center;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 1px solid var(--green);
+  background: transparent;
+  color: var(--green);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  letter-spacing: 1px;
+}
+.module-card .start-btn:hover {
+  background: var(--green);
+  color: #000000;
+}
+
+.module-card.green,
+.module-card.cyan {
+  border-left-color: var(--green);
+  color: var(--text);
+}
+.module-card.green:hover,
+.module-card.cyan:hover {
+  border-color: var(--green);
+}
+.module-card.green .start-btn,
+.module-card.cyan .start-btn {
+  border-color: var(--green);
+  color: var(--green);
+}
+.module-card.green .start-btn:hover,
+.module-card.cyan .start-btn:hover {
+  background: var(--green);
+  color: #000;
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  margin-top: 8px;
+  overflow: hidden;
+}
+.progress-bar .fill {
+  height: 100%;
+  width: 0%;
+  background: var(--green);
+  transition: width 0.6s ease;
+}
+.progress-bar .fill.green,
+.progress-bar .fill.cyan {
+  background: var(--green);
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 11px;
+  color: var(--text-dim);
+  opacity: 0.4;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px 14px 40px;
+  }
+  .header {
+    padding-top: 24px;
+    margin-bottom: 28px;
+  }
+  .title {
+    font-size: 20px;
+    letter-spacing: 3px;
+  }
+  .path-btn {
+    font-size: 13px;
+    padding: 14px;
+  }
+  .path-btn .icon {
+    font-size: 22px;
+  }
+  .path-title {
+    font-size: 15px;
+  }
+  .module-card {
+    flex-wrap: wrap;
+  }
+  .module-card .start-btn {
+    margin-top: 8px;
+    width: 100%;
+    text-align: center;
+  }
+}

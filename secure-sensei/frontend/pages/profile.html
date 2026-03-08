@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile -- SecureSensei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      .profile-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 30px;
+        max-width: 500px;
+        margin: 40px auto;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+      .profile-info {
+        margin: 20px 0;
+      }
+      .profile-label {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 10px;
+        color: var(--text-dim);
+        margin-bottom: 8px;
+        display: block;
+      }
+      .profile-email {
+        font-size: 20px;
+        color: var(--green);
+        word-break: break-all;
+      }
+      .profile-progress {
+        margin-top: 30px;
+      }
+      .profile-progress-bar {
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 4px;
+        height: 20px;
+        margin-top: 10px;
+        overflow: hidden;
+      }
+      .profile-progress-fill {
+        background: var(--green);
+        height: 100%;
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+      .logout-btn {
+        background: #f44336;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+        font-family: 'Chakra Petch', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: background 0.2s;
+      }
+      .logout-btn:hover {
+        background: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="binary-rain" id="binaryRain"></div>
+
+    <div class="container">
+      <header class="header">
+        <div class="logo-icon"></div>
+        <h1 class="title">SECURE SENSEI</h1>
+        <p class="subtitle">USER PROFILE</p>
+      </header>
+
+      <div class="section active">
+        <div class="path-header">
+          <a href="../index.html">
+            <button class="back-btn">< HOME</button>
+          </a>
+          <h2 class="path-title green">PROFILE_OVERRIDE</h2>
+        </div>
+
+        <div
+          class="profile-card"
+          style="
+            text-align: left;
+            padding: 20px 30px;
+            border-color: var(--green);
+          "
+        >
+          <h3
+            style="
+              color: var(--green);
+              border-bottom: 1px solid var(--green);
+              padding-bottom: 10px;
+              margin-bottom: 20px;
+              font-family: 'Press Start 2P', monospace;
+              font-size: 14px;
+            "
+          >
+            > SYS.USER_INFO
+          </h3>
+          <div class="profile-info">
+            <span class="profile-label">CURRENT_EMAIL:</span>
+            <div class="profile-email" id="userEmail" style="font-size: 16px">
+              Loading...
+            </div>
+          </div>
+
+          <div class="profile-progress" style="margin-top: 20px">
+            <span class="profile-label"
+              >GLOBAL_PROGRESSION:
+              <span id="totalProgressText" style="color: #fff">0%</span></span
+            >
+            <div class="profile-progress-bar">
+              <div
+                class="profile-progress-fill"
+                id="totalProgressFill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <h3
+            style="
+              color: #ffbd2e;
+              border-bottom: 1px solid #ffbd2e;
+              padding-bottom: 10px;
+              margin-top: 40px;
+              margin-bottom: 20px;
+              font-family: 'Press Start 2P', monospace;
+              font-size: 14px;
+            "
+          >
+            > SYS.CREDENTIAL_OVERRIDE
+          </h3>
+
+          <div
+            style="
+              background: #111;
+              padding: 15px;
+              border-left: 3px solid #ffbd2e;
+              margin-bottom: 20px;
+            "
+          >
+            <span class="profile-label" style="color: #ffbd2e"
+              >UPDATE_EMAIL</span
+            >
+            <input
+              type="email"
+              id="newEmailInput"
+              placeholder="New Email Address"
+              style="
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                background: #000;
+                color: #fff;
+                border: 1px solid #333;
+                font-family: 'Chakra Petch', sans-serif;
+              "
+            />
+            <input
+              type="password"
+              id="currentPassForEmail"
+              placeholder="Current Password (Required)"
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                background: #000;
+                color: #fff;
+                border: 1px solid #333;
+                font-family: 'Chakra Petch', sans-serif;
+              "
+            />
+            <button
+              onclick="handleUpdateEmail()"
+              style="
+                background: #ffbd2e;
+                color: #000;
+                border: none;
+                padding: 8px 16px;
+                font-family: 'Chakra Petch', sans-serif;
+                font-weight: bold;
+                cursor: pointer;
+              "
+            >
+              EXECUTE_UPDATE
+            </button>
+            <div id="emailMsg" style="margin-top: 10px; font-size: 12px"></div>
+          </div>
+
+          <div
+            style="
+              background: #111;
+              padding: 15px;
+              border-left: 3px solid #ff4444;
+              margin-bottom: 20px;
+            "
+          >
+            <span class="profile-label" style="color: #ff4444"
+              >UPDATE_PASSWORD</span
+            >
+            <input
+              type="password"
+              id="currentPassForPass"
+              placeholder="Current Password"
+              style="
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                background: #000;
+                color: #fff;
+                border: 1px solid #333;
+                font-family: 'Chakra Petch', sans-serif;
+              "
+            />
+            <input
+              type="password"
+              id="newPassInput"
+              placeholder="New Password (Min 6 chars)"
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                background: #000;
+                color: #fff;
+                border: 1px solid #333;
+                font-family: 'Chakra Petch', sans-serif;
+              "
+            />
+            <button
+              onclick="handleUpdatePassword()"
+              style="
+                background: #ff4444;
+                color: #fff;
+                border: none;
+                padding: 8px 16px;
+                font-family: 'Chakra Petch', sans-serif;
+                font-weight: bold;
+                cursor: pointer;
+              "
+            >
+              FORCE_RESET
+            </button>
+            <div id="passMsg" style="margin-top: 10px; font-size: 12px"></div>
+          </div>
+
+          <div
+            style="
+              text-align: right;
+              margin-top: 30px;
+              border-top: 1px dashed #555;
+              padding-top: 20px;
+            "
+          >
+            <button
+              class="logout-btn"
+              style="margin-top: 0"
+              onclick="window.Auth.logout()"
+            >
+              TERMINATE_SESSION
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        (c) 2026 SecureSensei -- SERVER ACCESS TERMINAL
+      </footer>
+    </div>
+
+    <!-- Script to load profile data -->
+    <script src="../js/app.js"></script>
+    <script>
+      window.AUTH_MODE = 'guard';
+    </script>
+    <script src="../js/auth.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('ss_token');
+        if (!token) return;
+        try {
+          const res = await fetch('http://localhost:8000/api/auth/me', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (res.ok) {
+            const data = await res.json();
+            document.getElementById('userEmail').textContent = data.email;
+
+            // Calculate total progression (assuming 6 total modules)
+            const progress = data.progress || {};
+            let totalPercent = 0;
+            const moduleFiles = [
+              'social',
+              'network',
+              'phishing',
+              'defensive',
+              'offensive',
+              'linux',
+            ];
+            moduleFiles.forEach((mId) => {
+              if (progress[mId]) {
+                totalPercent += progress[mId];
+              }
+            });
+            const avgProgress =
+              Math.round(totalPercent / moduleFiles.length) || 0;
+
+            document.getElementById('totalProgressText').textContent =
+              avgProgress + '%';
+            document.getElementById('totalProgressFill').style.width =
+              avgProgress + '%';
+          }
+        } catch (e) {
+          console.error('Failed to load profile', e);
+        }
+      });
+
+      async function handleUpdateEmail() {
+        const newEmail = document.getElementById('newEmailInput').value;
+        const pass = document.getElementById('currentPassForEmail').value;
+        const msg = document.getElementById('emailMsg');
+
+        if (!newEmail || !pass) {
+          msg.textContent = '[-] Error: Missing required fields.';
+          msg.style.color = '#ff4444';
+          return;
+        }
+
+        msg.textContent = '[*] Transmitting request...';
+        msg.style.color = '#ffbd2e';
+
+        const res = await window.Auth.updateEmail(newEmail, pass);
+        if (res.success) {
+          msg.textContent = '[+] Success: ' + res.message;
+          msg.style.color = '#00e676';
+          document.getElementById('userEmail').textContent = newEmail;
+          document.getElementById('newEmailInput').value = '';
+          document.getElementById('currentPassForEmail').value = '';
+        } else {
+          msg.textContent = '[-] Error: ' + res.message;
+          msg.style.color = '#ff4444';
+        }
+      }
+
+      async function handleUpdatePassword() {
+        const currentPass = document.getElementById('currentPassForPass').value;
+        const newPass = document.getElementById('newPassInput').value;
+        const msg = document.getElementById('passMsg');
+
+        if (!currentPass || !newPass) {
+          msg.textContent = '[-] Error: Missing required fields.';
+          msg.style.color = '#ff4444';
+          return;
+        }
+
+        if (newPass.length < 6) {
+          msg.textContent =
+            '[-] Error: Password must be at least 6 characters.';
+          msg.style.color = '#ff4444';
+          return;
+        }
+
+        msg.textContent = '[*] Transmitting request...';
+        msg.style.color = '#ffbd2e';
+
+        const res = await window.Auth.updatePassword(currentPass, newPass);
+        if (res.success) {
+          msg.textContent = '[+] Success: ' + res.message;
+          msg.style.color = '#00e676';
+          document.getElementById('currentPassForPass').value = '';
+          document.getElementById('newPassInput').value = '';
+        } else {
+          msg.textContent = '[-] Error: ' + res.message;
+          msg.style.color = '#ff4444';
+        }
+      }
+    </script>
+  </body>
+</html>

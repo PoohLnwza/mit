@@ -1,0 +1,135 @@
+[
+  {
+    "id": "penetration-testing-intro",
+    "title": "Intro to Pentesting",
+    "icon": "⚔️",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "Penetration Testing คืออะไร?",
+        "text": "Penetration Testing (Pen Test) หรือการทดสอบเจาะระบบ คือการจำลองการโจมตีทางไซเบอร์ไปยังระบบคอมพิวเตอร์ เครือข่าย หรือแอปพลิเคชัน เพื่อค้นหาช่องโหว่ (Vulnerability) และประเมินความเสี่ยงที่แฮกเกอร์อาจสามารถใช้ประโยชน์ได้"
+      },
+      {
+        "type": "content",
+        "heading": "ขั้นตอนการทำ Penetration Testing",
+        "text": "1. **Reconnaissance (การรวบรวมข้อมูล)**: หาข้อมูลเป้าหมายให้มากที่สุด\n2. **Scanning & Enumeration**: สแกนหาพอร์ต บริการ หรือระบบปฏิบัติการที่เป้าหมายใช้งาน\n3. **Vulnerability Assessment**: ประเมินและค้นหาช่องโหว่จากข้อมูลที่ได้\n4. **Exploitation (การเจาะระบบ)**: นำช่องโหว่ที่พบมาโจมตีเพื่อเข้าถึงระบบ\n5. **Post-Exploitation**: รักษาการเข้าถึง หรือพยายามยกระดับสิทธิ์ (Privilege Escalation)\n6. **Reporting (การทำรายงาน)**: สรุปผลช่องโหว่และเสนอแนวทางแก้ไข"
+      },
+      {
+        "type": "quiz",
+        "question": "ขั้นตอนการจำลองการโจมตีเพื่อค้นหาช่องโหว่ระบบอย่างถูกกฎหมาย เรียกว่าอะไร?",
+        "answer": "penetration testing",
+        "hint": "ภาษาไทยแปลว่า การทดสอบเจาะระบบ"
+      }
+    ]
+  },
+  {
+    "id": "owasp-sqli",
+    "title": "SQL Injection (SQLi)",
+    "icon": "💉",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "SQL Injection คืออะไร?",
+        "text": "SQL Injection คือการโจมตีที่ใส่คำสั่ง SQL อันตรายเข้าไปในช่อง Input ของแอปพลิเคชัน ทำให้สามารถข้ามการตรวจสอบรหัสผ่าน อ่านข้อมูลลับ ปรับปรุงข้อมูล หรือแม้แต่ลบฐานข้อมูลทิ้งได้"
+      },
+      {
+        "type": "content",
+        "heading": "ตัวอย่างการโจมตี",
+        "text": "ถ้าช่องกรอก Username ส่งค่าตรงไปยังฐานข้อมูลแบบนี้:\n`SELECT * FROM users WHERE username = '$user' AND password = '$password'`\nหากผู้โจมตีป้อน `admin' OR 1=1 --` ในช่อง username คำสั่ง SQL จะกลายเป็น:\n`SELECT * FROM users WHERE username = 'admin' OR 1=1 --' AND password = '...'`\nเงื่อนไข `1=1` ทำให้เป็นจริงเสมอ และ `--` จะคอมเมนต์คำสั่งตรวจสอบพาสเวิร์ดทิ้ง ทำให้ล็อกอินสำเร็จโดยไม่ต้องใช้รหัสผ่าน"
+      },
+      {
+        "type": "sql_simulator",
+        "question": "นำ Flag ที่ได้จากการโจมตี SQL Injection ในแบบจำลองมาตอบเพื่อผ่านด่าน",
+        "answer": "FLAG_SQL1_M4ST3R",
+        "hint": "ลองใส่ไข่ปลา (Single Quote) และเงื่อนไขที่ให้ค่าเป็นตัวมันเองเสมอ เช่น `a' OR 1=1 --`"
+      }
+    ]
+  },
+  {
+    "id": "owasp-idor",
+    "title": "Broken Access Control (IDOR)",
+    "icon": "🔑",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "IDOR (Insecure Direct Object Reference) คืออะไร?",
+        "text": "IDOR เป็นส่วนหนึ่งของ Broken Access Control เกิดจากการที่แอปพลิเคชันเปิดให้เข้าถึงไฟล์หรือข้อมูลในฐานข้อมูลทางตรงได้โดยไม่มีการตรวจสอบสิทธิ์ว่าผู้ใช้นั้นมีสิทธิ์เข้าถึงข้อมูลของคนอื่นได้หรือไม่"
+      },
+      {
+        "type": "content",
+        "heading": "ตัวอย่างสถานการณ์",
+        "text": "คุณล็อกอินเข้าระบบดูโปรไฟล์ตัวเอง และสังเกตเห็น URL เป็น `https://example.com/profile?id=1050`\nหากคุณลองเปลี่ยนเลข id เป็น `1051` แล้วระบบแสดงข้อมูลของคนอื่นแทนที่จะแจ้งเตือน แสดงว่าระบบมีช่องโหว่ IDOR"
+      },
+      {
+        "type": "idor_simulator",
+        "question": "นำ Flag ที่ได้จากการโจมตี IDOR ในแบบจำลองมาตอบเพื่อผ่านด่าน",
+        "answer": "FLAG_1D0R_H4CK3R",
+        "hint": "ลองเปลี่ยน User ID ในช่อง URL ด้านบนเป็นเลข 1 (มักจะเป็น Admin) เพื่อดูข้อมูลลับ"
+      }
+    ]
+  },
+  {
+    "id": "owasp-cmd",
+    "title": "Command Injection",
+    "icon": "[*]",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "Command Injection คืออะไร?",
+        "text": "ช่องโหว่นี้เกิดขึ้นเมื่อแอปพลิเคชันนำข้อมูล Input จากผู้ใช้ส่งตรงไปทำงานในระดับ Shell (Command Line) ของระบบปฏิบัติการโดยไม่มีการกรอง ทำให้ผู้โจมตีสามารถแทรกคำสั่งอันตรายเข้าไปทำงานบนเซิร์ฟเวอร์ได้"
+      },
+      {
+        "type": "content",
+        "heading": "เทคนิคการแทรกคำสั่ง",
+        "text": "ในระบบ Linux สามารถใช้เครื่องหมายเพื่อต่อคำสั่งได้ เช่น\n- `;` (รันคำสั่งแรกเสร็จ แล้วรันคำสั่งสองตามรวดเดียว)\n- `&&` (รันคำสั่งที่สอง เฉพาะเมื่อคำสั่งแรกทำงานสำเร็จ)\n- `|` (นำ Output ของคำสั่งแรก ไปเป็น Input ของคำสั่งสอง)\n\nตัวอย่าง: โจมตีหน้าเว็บ Ping Server ด้วยการป้อน IP เป็น `127.0.0.1; whoami`"
+      },
+      {
+        "type": "cmd_simulator",
+        "question": "นำ Flag ที่ได้จากการแทรกคำสั่งเพื่อดูไฟล์ flag.txt (cat flag.txt) มาตอบเพื่อผ่านด่าน",
+        "answer": "FLAG_CMD_1NJ3CT10N",
+        "hint": "ลองป้อน `127.0.0.1; cat flag.txt` ตรงช่อง Ping!"
+      }
+    ]
+  },
+  {
+    "id": "owasp-sde",
+    "title": "Sensitive Data Exposure",
+    "icon": "👁️",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "Sensitive Data Exposure คืออะไร?",
+        "text": "ปัจจุบัน OWASP ให้ความสำคัญกับการเปิดเผยข้อมูลสำคัญ ไม่ว่าจะเป็นการไม่เข้ารหัสข้อมูลพาสเวิร์ด ทิ้ง API Key ไว้บน Github หรือแม้แต่คอมเมนต์ของนักพัฒนา (Developer Comments) ที่หลงลืมไว้ใน Source Code ซึ่งมีข้อมูลระบบ ข้อมูลผู้ใช้ หรือความลับทางธุรกิจ"
+      },
+      {
+        "type": "source_simulator",
+        "question": "ค้นหาความลับที่ถูกซ่อนไว้โดยนักพัฒนา แล้วนำ Flag มาตอบ",
+        "answer": "FLAG_S0URC3_C0D3",
+        "hint": "ในโลกความเป็นจริงคุณจะต้องกด คลิกขวา -> ถอดรหัส Source Code แต่ในแล็บนี้ เรามีปุ่มกดให้ลอง"
+      }
+    ]
+  },
+  {
+    "id": "owasp-xss",
+    "title": "Cross-Site Scripting (XSS)",
+    "icon": "📝",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "Cross-Site Scripting (XSS) คืออะไร?",
+        "text": "XSS คือช่องโหว่ที่ผู้โจมตีสามารถฝังโค้ด JavaScript อันตรายเข้าไปในหน้าเว็บ เพื่อให้เบราว์เซอร์ของผู้ใช้คนอื่นประมวลผลโค้ดนั้น สามารถใช้ขโมย Session Cookie หรือหลอกให้โอนเงินได้"
+      },
+      {
+        "type": "content",
+        "heading": "Reflected XSS",
+        "text": "ประเภทนี้ ข้อมูลจาก Input ของผู้ใช้ (เช่น ช่องค้นหา) จะสะท้อนกลับมาแสดงบนหน้าเว็บทันที หากลองพิมพ์ `<script>alert(1)</script>` ลงไปในช่อง Search หากเว็บแจ้งเตือนเลข 1 ขึ้นมา แสดงว่ามีช่องโหว่"
+      },
+      {
+        "type": "xss_simulator",
+        "question": "ลองใช้ Script ด้านบนเพื่อกระตุ้นช่องโหว่ดู แล้วเอา Flag ที่ปรากฏหลังจากโดนแฮกมาตอบ",
+        "answer": "FLAG_XSS_P0PUP",
+        "hint": "ป้อน `<script>alert('test')</script>` เข้าระบบเลย!"
+      }
+    ]
+  }
+]

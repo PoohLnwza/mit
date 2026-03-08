@@ -1,0 +1,146 @@
+[
+  {
+    "id": "siem-intro",
+    "title": "Introduction to SIEM",
+    "icon": "🛡️",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "SIEM คืออะไร?",
+        "text": "SIEM (Security Information and Event Management) เป็นระบบที่รวบรวม Log จากอุปกรณ์ต่างๆ เช่น Firewall, Server, Router นำมาวิเคราะห์หาความผิดปกติ (Anomaly) แบบ Real-time และใช้เก็บ Log ไว้ตรวจสอบย้อนหลัง (Investigation)"
+      },
+      {
+        "type": "content",
+        "heading": "ความสำคัญของ SIEM ใน Blue Team",
+        "text": "ในมุมมองของ Defensive Security ทีมจะใช้หน้าจอ SIEM เป็นตาในการตรวจจับภัยคุกคาม หากมีการพยายาม Login รหัสผ่านผิดซ้ำๆ (Brute Force) หรือมี Traffic แปลกๆ หลุดเข้ามา SIEM จะสร้าง Alert แจ้งเตือนเพื่อให้ SOC Analyst เข้าไปตรวจสอบ"
+      },
+      {
+        "type": "quiz",
+        "question": "แพลตฟอร์มที่ทำหน้าที่รวบรวม Log จากหลายแหล่งมาวิเคราะห์ความปลอดภัย ย่อมาจากอะไร?",
+        "answer": "siem",
+        "hint": "แพลตฟอร์มนี้ชื่อย่อ 4 ตัวอักษร"
+      }
+    ]
+  },
+  {
+    "id": "log-analysis",
+    "title": "Log Analysis 101",
+    "icon": "📜",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "การวิเคราะห์ Log เบื้องต้น",
+        "text": "Log คือบันทึกการทำงานของระบบ การจะดูว่าระบบถูกเจาะหรือไม่ มักต้องดูจาก Log ตัวอย่างเช่น เครื่อง Linux จะเก็บ Web Server log ไว้ที่ `/var/log/apache2/access.log` หรือ `/var/log/nginx/access.log` และบันทึกการ Login ไว้ที่ `/var/log/auth.log`"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "# ตัวอย่าง Log เลียนแบบการพยายามเดารหัสผ่านใน /var/log/auth.log\nAug 28 10:14:52 server sshd[1204]: Failed password for root from 192.168.1.100 port 38290 ssh2\nAug 28 10:14:55 server sshd[1207]: Failed password for root from 192.168.1.100 port 38294 ssh2\nAug 28 10:14:58 server sshd[1210]: Failed password for admin from 192.168.1.100 port 38298 ssh2\nAug 28 10:15:02 server sshd[1213]: Accepted password for admin from 192.168.1.100 port 38302 ssh2"
+      },
+      {
+        "type": "quiz",
+        "question": "จาก Log ตัวอย่าง ผู้โจมตีมาจาก IP Address หมายเลขใด?",
+        "answer": "192.168.1.100",
+        "hint": "IP ของคนที่พยายาม Connect เข้ามา (from ...)"
+      },
+      {
+        "type": "quiz",
+        "question": "การโจมตีที่พยายามส่งรหัสผ่านผิดหลายๆ ครั้งเพื่อเดารหัส เรียกว่าเทคนิคใด?",
+        "answer": "brute force",
+        "hint": "ภาษาอังกฤษแปลตรงตัวแปลว่า 'การใช้กำลัง' (สองพยางค์)"
+      }
+    ]
+  },
+  {
+    "id": "incident-response",
+    "title": "Incident Response",
+    "icon": "🚨",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "วงจร Incident Response (IR)",
+        "text": "เมื่อเกิดเหตุการณ์ถูกโจมตี ทีมรับมือเหตุการณ์ (IR) จะมี 6 ขั้นตอนหลัก (NIST Framework):\n1. Preparation (เตรียมพร้อม)\n2. Identification (ระบุเหตุการณ์)\n3. Containment (จำกัดความเสียหาย)\n4. Eradication (กำจัดต้นตอ)\n5. Recovery (กู้คืนระบบ)\n6. Lessons Learned (ถอดบทเรียน)"
+      },
+      {
+        "type": "content",
+        "heading": "กรณีศึกษา: Web Server ขุดเหมือง",
+        "text": "หากเราพบว่าเซิร์ฟเวอร์ของเรา CPU ทำงาน 100% ตลอดเวลา และพบ Process แปลกๆ ทำงานอยู่ การดึงปลั๊กหรือล้างเครื่องทันทีอาจทำให้หลักฐานหายไป ควรเริ่มจากการ 'Containment' เช่น ตัด Network ของเครื่องนั้นออกจากวง LAN เพื่อไม่ให้ลามไปเครื่องอื่น แล้วจึงทำการวิเคราะห์ (Identification) และกำจัดมัลแวร์ (Eradication)"
+      },
+      {
+        "type": "quiz",
+        "question": "ขั้นตอนการ 'จำกัดพื้นที่ความเสียหาย' ไม่ให้ลุกลามไปยังระบบอื่น คือข้อใด (ใช้ภาษาอังกฤษ)",
+        "answer": "containment",
+        "hint": "ขึ้นต้นด้วย C (นึกถึงคำว่ากักกันโรค)"
+      }
+    ]
+  },
+  {
+    "id": "siem-sim",
+    "title": "SIEM Simulator",
+    "icon": "🕹️",
+    "sections": [
+      {
+        "type": "content",
+        "heading": "จำลองระบบ SIEM",
+        "text": "วิเคราะห์ Log แจ้งเตือนจากหน้าจอ SIEM ด้านล่าง เพื่อหาความผิดปกติ (Anomaly) ที่เกิดขึ้นในระบบ เมื่อพบ IP ที่น่าสงสัย ให้ทำการ Report Incident เพื่อรับ Flag"
+      },
+      {
+        "type": "siem_simulator",
+        "logs": [
+          {
+            "time": "10:14:01",
+            "source": "192.168.1.55",
+            "dest": "10.0.0.10",
+            "event": "TCP connection accepted"
+          },
+          {
+            "time": "10:14:15",
+            "source": "192.168.1.12",
+            "dest": "10.0.0.5",
+            "event": "Successful SSH login"
+          },
+          {
+            "time": "10:15:22",
+            "source": "103.45.67.89",
+            "dest": "10.0.0.10",
+            "event": "Failed SSH login (root)"
+          },
+          {
+            "time": "10:15:24",
+            "source": "103.45.67.89",
+            "dest": "10.0.0.10",
+            "event": "Failed SSH login (admin)"
+          },
+          {
+            "time": "10:15:25",
+            "source": "103.45.67.89",
+            "dest": "10.0.0.10",
+            "event": "Failed SSH login (user)"
+          },
+          {
+            "time": "10:15:27",
+            "source": "103.45.67.89",
+            "dest": "10.0.0.10",
+            "event": "Failed SSH login (test)"
+          },
+          {
+            "time": "10:15:30",
+            "source": "103.45.67.89",
+            "dest": "10.0.0.10",
+            "event": "Successful SSH login (root)"
+          },
+          {
+            "time": "10:16:05",
+            "source": "192.168.1.88",
+            "dest": "10.0.0.22",
+            "event": "HTTP GET /index.html"
+          }
+        ],
+        "question": "ตรวจสอบจาก Log ด้านบน พบการโจมตีแบบ Brute Force จาก IP Address ใด?",
+        "answer": "103.45.67.89",
+        "flag": "FLAG_B0K1_LNWZ4",
+        "hint": "สังเกต IP ที่มีการพยายาม Login ผิดพลาด (Failed SSH login) ติดต่อกันหลายครั้ง"
+      }
+    ]
+  }
+]

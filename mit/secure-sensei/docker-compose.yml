@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database with pgvector extension
+  db:
+    image: ankane/pgvector:v0.5.1
+    container_name: secure_sensei_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+
+  # 2. Python Backend (FastAPI + RAG)
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: secure_sensei_api
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+    volumes:
+      - ./frontend/data:/Users/attachatchannakorn/secure-sensei/data
+      - ./backend:/app
+
+  web:
+    image: nginx:alpine
+    container_name: secure_sensei_web
+    ports:
+      - '8081:80'
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ยืนยันอีเมล — SecureSensei</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Press+Start+2P&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .verify-card {
+      background: rgba(10, 0, 22, 0.7);
+      backdrop-filter: blur(18px);
+      border: 2px solid var(--pink);
+      border-radius: 2px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 4px 4px 0 rgba(139, 68, 204, .5), 8px 8px 0 rgba(139, 68, 204, .2);
+    }
+
+    .v-logo {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      color: var(--pink);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      line-height: 1.8;
+      text-shadow: 0 0 8px var(--pink-glow), 2px 2px 0 rgba(139, 68, 204, .7);
+    }
+
+    .v-sub {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-bottom: 36px;
+      line-height: 1.8;
+    }
+
+    .v-icon {
+      font-size: 48px;
+      margin-bottom: 18px;
+    }
+
+    .status-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      letter-spacing: .5px;
+      margin-bottom: 10px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .status-detail {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .v-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: transparent;
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all .1s;
+      text-shadow: 0 0 5px var(--pink-glow);
+    }
+
+    .v-btn:hover {
+      background: var(--pink);
+      color: var(--bg);
+      box-shadow: 2px 2px 0 var(--pink-glow);
+    }
+
+    .error .status-text {
+      color: #ff5f57;
+    }
+
+    .success .status-text {
+      color: #20d4dd;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading .v-icon {
+      animation: spin 1.2s linear infinite;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-wrapper">
+    <div class="verify-card" id="card">
+      <div class="v-logo">SECURE SENSEI</div>
+      <div class="v-sub">CYBERSECURITY TRAINING SYS</div>
+      <div class="v-icon" id="icon">⏳</div>
+      <div class="status-text" id="status-text">VERIFYING EMAIL...</div>
+      <div class="status-detail" id="status-detail">โปรดรอสักครู่</div>
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:8000';
+    async function verifyToken() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      if (!token) { showError('INVALID LINK', 'ไม่พบ token ในลิงก์ยืนยัน'); return; }
+      try {
+        const res = await fetch(`${API}/api/auth/verify?token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+        if (res.ok) showSuccess();
+        else showError('VERIFY FAILED', data.detail || 'ลิงก์ไม่ถูกต้องหรือใช้ไปแล้ว');
+      } catch { showError('ERROR', 'ไม่สามารถเชื่อมต่อ server ได้'); }
+    }
+    function showSuccess() {
+      document.getElementById('icon').textContent = '✅';
+      document.getElementById('status-text').textContent = 'EMAIL VERIFIED!';
+      document.getElementById('status-detail').innerHTML = 'บัญชีของคุณพร้อมใช้งานแล้ว<br>คลิกปุ่มด้านล่างเพื่อเข้าสู่ระบบ';
+      document.getElementById('card').classList.add('success');
+      appendButton('../index.html', '> LOGIN');
+    }
+    function showError(title, detail) {
+      document.getElementById('icon').textContent = '✖';
+      document.getElementById('status-text').textContent = title;
+      document.getElementById('status-detail').textContent = detail;
+      document.getElementById('card').classList.add('error');
+      appendButton('../index.html', '> HOME');
+    }
+    function appendButton(href, label) {
+      const a = document.createElement('a');
+      a.href = href; a.className = 'v-btn'; a.textContent = label;
+      document.getElementById('card').appendChild(a);
+    }
+    verifyToken();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — SecureSensei</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Chakra+Petch:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* ─── Profile RPG Layout ─── */
+    .profile-page {
+      display: flex;
+      gap: 14px;
+      height: 100%;
+      align-items: flex-start;
+    }
+
+    /* ── LEFT: Character Panel ── */
+    .char-panel {
+      width: 230px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel-box {
+      background: rgba(4, 0, 10, 0.88);
+      border: 2px solid rgba(233, 30, 140, 0.3);
+      border-radius: 2px;
+      padding: 14px;
+      box-shadow: 2px 2px 0 rgba(139, 68, 204, 0.25);
+    }
+
+    .panel-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pink);
+      text-shadow: 0 0 6px var(--pink-glow);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Avatar */
+    .avatar-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .avatar-frame {
+      width: 110px;
+      height: 110px;
+      border: 2px solid var(--pink);
+      box-shadow: 0 0 12px var(--pink-glow), 3px 3px 0 rgba(139, 68, 204, .5);
+      border-radius: 2px;
+      overflow: hidden;
+      image-rendering: pixelated;
+      position: relative;
+      background: rgba(2, 0, 6, 0.9);
+      cursor: pointer;
+    }
+
+    .avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+      display: block;
+    }
+
+    .avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: rgba(233, 30, 140, .4);
+    }
+
+    .avatar-placeholder span:first-child {
+      font-size: 36px;
+    }
+
+    .avatar-placeholder .hint {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 5px;
+      color: var(--text-dim);
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* Hidden file input trick */
+    #avatarInput {
+      display: none;
+    }
+
+    /* Character stat rows */
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(233, 30, 140, .08);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      line-height: 1.8;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-icon {
+      font-size: 12px;
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .stat-label {
+      color: var(--text-dim);
+      flex: 1;
+    }
+
+    .stat-value {
+      color: var(--text);
+      text-align: right;
+    }
+
+    .stat-value.pink {
+      color: var(--pink);
+      text-shadow: 0 0 6px var(--pink-glow);
+    }
+
+    .stat-value.purple {
+      color: var(--purple);
+      text-shadow: 0 0 6px var(--purple-glow);
+    }
+
+    .stat-value.cyan {
+      color: #20d4dd;
+    }
+
+    /* ── RIGHT: Stats Panel ── */
+    .stats-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    /* Section header */
+    .section-header {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pink);
+      text-shadow: 0 0 6px var(--pink-glow), 2px 2px 0 rgba(139, 68, 204, .5);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(233, 30, 140, .2);
+    }
+
+    /* Overall XP bar */
+    .xp-bar-wrap {
+      background: rgba(2, 0, 5, .8);
+      border: 1px solid rgba(233, 30, 140, .2);
+      height: 12px;
+      border-radius: 0;
+      overflow: hidden;
+      margin-bottom: 4px;
+      position: relative;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      transition: width .8s ease;
+      box-shadow: 0 0 10px var(--pink-glow);
+      position: relative;
+    }
+
+    .xp-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 6px;
+      background: rgba(255, 255, 255, .4);
+      animation: xp-shine 1.5s ease-in-out infinite;
+    }
+
+    @keyframes xp-shine {
+
+      0%,
+      100% {
+        opacity: .4
+      }
+
+      50% {
+        opacity: 1
+      }
+    }
+
+    .xp-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      margin-bottom: 14px;
+    }
+
+    /* Module progress grid */
+    .module-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mod-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(4, 0, 10, .85);
+      border: 1px solid rgba(233, 30, 140, .15);
+      border-left: 3px solid rgba(233, 30, 140, .3);
+      border-radius: 2px;
+      transition: all .1s;
+    }
+
+    .mod-row:hover {
+      border-color: var(--pink);
+      background: rgba(233, 30, 140, .06);
+      transform: translateX(2px);
+    }
+
+    .mod-row.tech-row {
+      border-left-color: rgba(139, 68, 204, .5);
+    }
+
+    .mod-row.tech-row:hover {
+      border-color: var(--purple);
+      background: rgba(139, 68, 204, .06);
+    }
+
+    .mod-row-icon {
+      font-size: 14px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .mod-row-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mod-row-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: block;
+      line-height: 1.8;
+    }
+
+    .mod-row-bar {
+      height: 4px;
+      width: 100%;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(233, 30, 140, .1);
+      overflow: hidden;
+    }
+
+    .mod-row-fill {
+      height: 100%;
+      width: 0%;
+      transition: width .6s ease;
+    }
+
+    .mod-row-fill.pink {
+      background: var(--pink);
+      box-shadow: 0 0 4px var(--pink-glow);
+    }
+
+    .mod-row-fill.purple {
+      background: var(--purple);
+      box-shadow: 0 0 4px var(--purple-glow);
+    }
+
+    .mod-row-pct {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+      min-width: 32px;
+      text-align: right;
+    }
+
+    .mod-row-pct.done {
+      color: #20d4dd;
+      text-shadow: 0 0 6px rgba(32, 212, 221, .4);
+    }
+
+    /* Achievement badges */
+    .badges-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 12px;
+      background: rgba(4, 0, 10, .85);
+      border: 1px solid rgba(233, 30, 140, .15);
+      border-radius: 2px;
+      min-width: 72px;
+      transition: all .1s;
+    }
+
+    .badge:hover {
+      border-color: var(--pink);
+      box-shadow: 2px 2px 0 var(--pink-glow);
+    }
+
+    .badge.locked {
+      opacity: .35;
+      filter: grayscale(1);
+    }
+
+    .badge-icon {
+      font-size: 22px;
+      image-rendering: pixelated;
+    }
+
+    .badge-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--text-dim);
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* Logout */
+    .logout-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid rgba(233, 30, 140, .3);
+      color: var(--text-dim);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all .1s;
+      text-align: center;
+    }
+
+    .logout-btn:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+      box-shadow: 2px 2px 0 var(--pink-glow);
+    }
+
+    /* Scrollable profile area */
+    .profile-scroll {
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: calc(88vh - 24px);
+      padding-right: 4px;
+    }
+
+    .profile-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .profile-scroll::-webkit-scrollbar-thumb {
+      background: rgba(233, 30, 140, .2);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+    <div class="app-container">
+
+      <!-- ─── SIDEBAR ─── -->
+      <nav class="sidebar">
+        <div class="sidebar-logo">SECURE<br>SENSEI</div>
+        <p class="sidebar-desc">CYBER TRAINING SYS</p>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link"><span>HOME</span></a>
+          <a href="nontechnical.html" class="nav-link"><span>NON-TECH</span></a>
+          <a href="technical.html" class="nav-link orange"><span>TECHNICAL</span></a>
+          <a href="profile.html" class="nav-link active"><span>PROFILE</span></a>
+        </div>
+      </nav>
+
+      <!-- ─── MAIN CONTENT ─── -->
+      <main class="main-content" style="padding-top:36px">
+
+        <p class="terminal-prompt" style="margin-bottom:18px">
+          &gt; LOAD PLAYER_DATA<span class="cursor-blink"></span>
+        </p>
+
+        <!-- RPG CHARACTER CARD LAYOUT -->
+        <div class="profile-page">
+
+          <!-- ── LEFT COLUMN ── -->
+          <div class="char-panel">
+
+            <!-- Avatar Box -->
+            <div class="panel-box">
+              <div class="panel-title">🧑‍💻 CHARACTER</div>
+
+              <!-- Avatar -->
+              <div class="avatar-wrapper">
+                <div class="avatar-frame" onclick="document.getElementById('avatarInput').click()"
+                  title="คลิกเพื่ออัปโหลดรูป">
+                  <img id="avatarImg" src="" alt="" style="display:none" />
+                  <div class="avatar-placeholder" id="avatarPlaceholder">
+                    <span>🎮</span>
+                    <span class="hint">CLICK TO<br>UPLOAD</span>
+                  </div>
+                </div>
+              </div>
+              <input type="file" id="avatarInput" accept="image/*" />
+
+              <!-- Char info rows -->
+              <div class="stat-row">
+                <span class="stat-icon">⊛</span>
+                <span class="stat-label">NAME</span>
+                <span class="stat-value pink" id="charName">AGENT_01</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-icon">✉</span>
+                <span class="stat-label">EMAIL</span>
+                <span class="stat-value" id="charEmail" style="font-size:5px">...</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-icon">⚔</span>
+                <span class="stat-label">CLASS</span>
+                <span class="stat-value purple">CYBER OPS</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-icon">◈</span>
+                <span class="stat-label">RANK</span>
+                <span class="stat-value cyan" id="charRank">ROOKIE</span>
+              </div>
+            </div>
+
+            <!-- Logout -->
+            <button class="logout-btn" onclick="logout()">
+              &gt; SIGN OUT
+            </button>
+
+          </div>
+
+          <!-- ── RIGHT COLUMN ── -->
+          <div class="stats-panel">
+
+            <!-- Overall XP -->
+            <div class="panel-box">
+              <div class="section-header">📊 TRAINING PROGRESS</div>
+
+              <div class="xp-bar-wrap">
+                <div class="xp-bar-fill" id="xpFill" style="width:0%"></div>
+              </div>
+              <div class="xp-label">
+                <span>OVERALL XP</span>
+                <span id="xpText" style="color:var(--pink)">0%</span>
+              </div>
+
+              <!-- Module rows -->
+              <div class="module-grid">
+
+                <div class="mod-row">
+                  <span class="mod-row-icon">📧</span>
+                  <div class="mod-row-info">
+                    <span class="mod-row-name">PHISHING MAIL</span>
+                    <div class="mod-row-bar">
+                      <div class="mod-row-fill pink" id="bar-phishing"></div>
+                    </div>
+                  </div>
+                  <span class="mod-row-pct" id="pct-phishing">0%</span>
+                </div>
+
+                <div class="mod-row">
+                  <span class="mod-row-icon">🧠</span>
+                  <div class="mod-row-info">
+                    <span class="mod-row-name">SOCIAL ENGINEERING</span>
+                    <div class="mod-row-bar">
+                      <div class="mod-row-fill pink" id="bar-social"></div>
+                    </div>
+                  </div>
+                  <span class="mod-row-pct" id="pct-social">0%</span>
+                </div>
+
+                <div class="mod-row tech-row">
+                  <span class="mod-row-icon">🐧</span>
+                  <div class="mod-row-info">
+                    <span class="mod-row-name">LINUX พื้นฐาน</span>
+                    <div class="mod-row-bar">
+                      <div class="mod-row-fill purple" id="bar-linux"></div>
+                    </div>
+                  </div>
+                  <span class="mod-row-pct" id="pct-linux">0%</span>
+                </div>
+
+                <div class="mod-row tech-row">
+                  <span class="mod-row-icon">🌐</span>
+                  <div class="mod-row-info">
+                    <span class="mod-row-name">NETWORKING SECURITY</span>
+                    <div class="mod-row-bar">
+                      <div class="mod-row-fill purple" id="bar-network"></div>
+                    </div>
+                  </div>
+                  <span class="mod-row-pct" id="pct-network">0%</span>
+                </div>
+
+                <div class="mod-row tech-row">
+                  <span class="mod-row-icon">🔵</span>
+                  <div class="mod-row-info">
+                    <span class="mod-row-name">DEFENSIVE SECURITY</span>
+                    <div class="mod-row-bar">
+                      <div class="mod-row-fill purple" id="bar-defensive"></div>
+                    </div>
+                  </div>
+                  <span class="mod-row-pct" id="pct-defensive">0%</span>
+                </div>
+
+                <div class="mod-row tech-row">
+                  <span class="mod-row-icon">🔴</span>
+                  <div class="mod-row-info">
+                    <span class="mod-row-name">OFFENSIVE SECURITY</span>
+                    <div class="mod-row-bar">
+                      <div class="mod-row-fill purple" id="bar-offensive"></div>
+                    </div>
+                  </div>
+                  <span class="mod-row-pct" id="pct-offensive">0%</span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="panel-box">
+              <div class="section-header">🏆 ACHIEVEMENTS</div>
+              <div class="badges-grid">
+                <div class="badge" id="badge-phish">
+                  <span class="badge-icon">🎣</span>
+                  <span class="badge-name">PHISH<br>BUSTER</span>
+                </div>
+                <div class="badge locked" id="badge-social">
+                  <span class="badge-icon">🧠</span>
+                  <span class="badge-name">MIND<br>GUARD</span>
+                </div>
+                <div class="badge locked" id="badge-linux">
+                  <span class="badge-icon">🐧</span>
+                  <span class="badge-name">LINUX<br>MASTER</span>
+                </div>
+                <div class="badge locked" id="badge-net">
+                  <span class="badge-icon">🌐</span>
+                  <span class="badge-name">NET<br>RANGER</span>
+                </div>
+                <div class="badge locked" id="badge-def">
+                  <span class="badge-icon">🛡️</span>
+                  <span class="badge-name">BLUE<br>KNIGHT</span>
+                </div>
+                <div class="badge locked" id="badge-off">
+                  <span class="badge-icon">⚔️</span>
+                  <span class="badge-name">RED<br>BLADE</span>
+                </div>
+                <div class="badge locked" id="badge-all">
+                  <span class="badge-icon">👑</span>
+                  <span class="badge-name">CYBER<br>SENSEI</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script>
+    // Fake login for dev
+    localStorage.setItem('ss_token', 'dev');
+
+    const fakeUser = {
+      email: 'demo@securesensei.dev',
+      progress: { phishing: 100, social: 60, linux: 10, network: 40, defensive: 20, offensive: 0 }
+    };
+
+    const RANKS = [
+      [0, 'ROOKIE'],
+      [20, 'INITIATE'],
+      [40, 'ANALYST'],
+      [60, 'SPECIALIST'],
+      [80, 'OPERATOR'],
+      [100, 'CYBER SENSEI']
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const prog = fakeUser.progress;
+
+      // Email & name
+      document.getElementById('charEmail').textContent = fakeUser.email;
+      const nameRaw = fakeUser.email.split('@')[0].toUpperCase();
+      document.getElementById('charName').textContent = nameRaw;
+
+      // Load avatar from localStorage
+      const saved = localStorage.getItem('ss_avatar');
+      if (saved) showAvatar(saved);
+
+      // Fill bars
+      const mods = ['phishing', 'social', 'linux', 'network', 'defensive', 'offensive'];
+      let total = 0;
+      mods.forEach(m => {
+        const v = prog[m] || 0;
+        total += v;
+        const bar = document.getElementById('bar-' + m);
+        const pct = document.getElementById('pct-' + m);
+        if (bar) bar.style.width = v + '%';
+        if (pct) {
+          pct.textContent = v + '%';
+          if (v >= 100) pct.classList.add('done');
+        }
+      });
+
+      // Overall XP
+      const avg = Math.round(total / mods.length);
+      document.getElementById('xpFill').style.width = avg + '%';
+      document.getElementById('xpText').textContent = avg + '%';
+
+      // Rank
+      let rank = RANKS[0][1];
+      for (const [threshold, name] of RANKS) { if (avg >= threshold) rank = name; }
+      document.getElementById('charRank').textContent = rank;
+
+      // Unlock badges
+      if (prog.phishing >= 100) document.getElementById('badge-phish').classList.remove('locked');
+      if (prog.social >= 100) document.getElementById('badge-social').classList.remove('locked');
+      if (prog.linux >= 100) document.getElementById('badge-linux').classList.remove('locked');
+      if (prog.network >= 100) document.getElementById('badge-net').classList.remove('locked');
+      if (prog.defensive >= 100) document.getElementById('badge-def').classList.remove('locked');
+      if (prog.offensive >= 100) document.getElementById('badge-off').classList.remove('locked');
+      if (avg >= 100) document.getElementById('badge-all').classList.remove('locked');
+    });
+
+    // Avatar upload
+    document.getElementById('avatarInput').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        localStorage.setItem('ss_avatar', ev.target.result);
+        showAvatar(ev.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function showAvatar(src) {
+      const img = document.getElementById('avatarImg');
+      img.src = src;
+      img.style.display = 'block';
+      document.getElementById('avatarPlaceholder').style.display = 'none';
+    }
+
+    function logout() {
+      localStorage.removeItem('ss_token');
+      localStorage.removeItem('ss_avatar');
+      window.location.href = '../index.html';
+    }
+  </script>
+</body>
+
+</html>

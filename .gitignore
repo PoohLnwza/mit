@@ -1,0 +1,39 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.conda/
+
+# Database data
+pgdata/
+docker-compose.override.yml
+
+# Backend python
+__pycache__/
+*.py[cod]
+*$py.class
+backend/.pytest_cache/
+backend/.locks/
+backend/models--BAAI--bge-m3/
+
+# Logs
+logs/
+*.log
+
+# Frontend (if adding node modules later)
+node_modules/
+dist/
+build/
